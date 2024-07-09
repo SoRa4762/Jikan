@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useParams } from "react-router-dom";
 
 const Page = () => {
@@ -21,20 +21,28 @@ const Page = () => {
   }, []);
 
   return (
-    <div>
-      {animeData.length === 0 ? (
+    <Suspense
+      fallback={
         <div>
-          <h1>Loading...</h1>
+          <h1>Loading from suspense...</h1>
         </div>
-      ) : (
-        <div>
-          <h1>{animeData.title}</h1>
-          <img src={animeData.images.jpg.image_url} alt="" />
-          <span>{animeData.airing}</span>
-          <a href="/">Back to home</a>
-        </div>
-      )}
-    </div>
+      }
+    >
+      <div>
+        {animeData.length === 0 ? (
+          <div>
+            <h1>Loading from array...</h1>
+          </div>
+        ) : (
+          <div>
+            <h1>{animeData.title}</h1>
+            <img src={animeData.images.jpg.image_url} alt="" />
+            <span>{animeData.airing}</span>
+            <a href="/">Back to home</a>
+          </div>
+        )}
+      </div>
+    </Suspense>
   );
 };
 
